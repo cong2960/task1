@@ -24,6 +24,13 @@ resource "alicloud_slb" "this" {
   master_zone_id       = var.master_zone_id == "" ? null : var.master_zone_id
   slave_zone_id        = var.slave_zone_id == "" ? null : var.slave_zone_id
 }
+resource "alicloud_slb_listener" "listener" {
+  load_balancer_id = alicloud_slb.this.id
+  backend_port     = "2111"
+  frontend_port    = "21"
+  protocol         = "tcp"
+  bandwidth        = "5"
+}
 
 locals {
   servers_of_default_server_group = flatten(
